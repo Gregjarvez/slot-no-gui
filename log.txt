@@ -1,0 +1,62 @@
+class <ENTRY>
+   max stake default: $10
+   default $ per spin: 0.10;
+   View: new View: update.
+   accumulated total wins
+   balance: {
+    start: 1000
+    left: start - lose amount
+   }
+   showwinLines: [
+      [], [], [], [], [], []
+   ]
+   generate random numbers
+      type arrays 3 * 3
+
+   generate win lines
+      interface [0,1,1]
+   generate symbol on win lines
+      interface ['cherry', 'knife', 'gun']
+
+   compose all
+     interface Object
+       grid: [
+          [],[],[]
+       ]
+       winLines: [
+           [], [], []
+       ]
+       *rtp: number,
+       balance: number
+
+   updateMethod: () => {
+      observers.update(Object);
+   }
+
+   exits : reset game params and exit;
+   console.clear()
+
+   start: ==> render initial state
+   spin: ===> generate randoms, winlines , compose all and update
+   stop: render initial state
+
+
+
+
+   Class random number generator::
+    class RNG
+      config {object: min, max, howmany}
+
+      implements shuffle.
+         fisher Yates shuffle algorithm for unbias shuffle.
+
+
+   Class View
+    update.
+      use console.table ==> grid
+      color winLine if wins
+
+      console.log(win if win)
+      console.log(lose if lose)
+
+      expose show options api.
