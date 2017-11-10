@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "browser-sync": "^2.18.13",
+    "faker": "^4.1.0"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
+  }
+}
