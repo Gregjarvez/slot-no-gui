@@ -3,7 +3,7 @@ class Observer {
     this.observers = [];
   }
 
-  add(observer) {
+  subscribe(observer) {
     var context = this;
 
     if (Array.isArray(observer)) {
