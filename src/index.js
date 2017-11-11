@@ -1,7 +1,9 @@
 import RNG from './modules/rgn.js';
+import Observer from './modules/observerList.js';
 
 class Slot {
   constructor() {
+    this.observerList = new Observer();
     this.accumulatedWin = 0;
     this.stake = 10;
     this.balance = {
@@ -10,9 +12,7 @@ class Slot {
     };
     this.winLines = [
       [0, 1, 1],
-      [1, 0, 1],
       [0, 0, 1],
-      [1, 0, 0],
       [2, 1, 0],
     ];
     this.generator = new RNG({
@@ -23,6 +23,10 @@ class Slot {
         .fill(5)
         .map(this.generator.randomArray);
     // ObserverList
+  }
+
+  notify(change) {
+    this.observerList.update(change);
   }
 }
 
