@@ -6,10 +6,16 @@
     "faker": "^4.1.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.18.13",
     "eslint": "^4.10.0",
     "eslint-config-google": "^0.9.1",
     "jest": "^21.2.1",
     "prettier": "^1.8.2"
+  },
+  "quokka": {
+    "babel": true
   }
 }
