@@ -9,37 +9,47 @@ class Slot {
       min: 1,
       max: 5,
     });
-    this.observerList.subscribe([
-      new View(),
-    ]);
+    this.observerList.subscribe(new View());
+    this.coinValue = 0.2;
 
-    this.symbols = {
-      bell: {
-        type: 1,
-        count: 3,
+    this.symbols = [
+      {
+        type: {
+          number: 1,
+          symbol: 'bell',
+        },
         value: 20,
       },
-      cherry: {
-        type: 2,
-        count: 3,
+      {
+        type: {
+          number: 2,
+          symbol: 'cherry',
+        },
         value: 40,
       },
-      orange: {
-        type: 3,
-        count: 3,
+      {
+        type: {
+          number: 3,
+          symbol: 'orange',
+        },
         value: 5,
       },
-      prune: {
-        type: 4,
-        count: 3,
+      {
+        type: {
+          number: 4,
+          symbol: 'prune',
+        },
         value: 15,
       },
-      seven: {
-        type: 5,
-        count: 3,
+      {
+        type: {
+          number: 5,
+          symbol: 'seven',
+        },
         value: 100,
       },
-    };
+    ];
+
     this.winLines = [
       [0, 0, 0],
       [1, 1, 1],
@@ -47,21 +57,21 @@ class Slot {
       [0, 1, 1],
       [0, 0, 1],
       [2, 1, 0],
-    ],
+    ];
 
-        this.state = {
-          grid: new Array(3)
-              .fill(5)
-              .map(this.generator.randomArray),
-          currency: {
-            accumulatedWin: null,
-            startValue: 1000,
-            balance: 1000,
-            stake: 10,
-          },
-          win: false,
-          winScore: null,
-        };
+    this.state = {
+      grid: new Array(3)
+          .fill(5)
+          .map(this.generator.randomArray),
+
+      accumulatedWin: 0,
+      balance: 1000,
+      stake: 10,
+      win: false,
+      payout: 0,
+    };
+
+    this.spin = this.spin.bind(this);
   }
 
   start() {
@@ -70,14 +80,40 @@ class Slot {
 
   spin() {
     var grid = this.state.grid.map(this.generator.shuffle, this);
-    var assertWin = this.assertWin(grid);
-    var winStats = this.winLines.map(assertWin, this);
 
-    this.updateState({
-      grid: grid,
+    var assertWin = this.assertWin(grid);
+    var winStats = this.winLines
+                       .map(assertWin)
+                       .filter(Boolean);
+
+    if (!winStats.length) {
+      this.updateState(this.state, function(prevState) {
+        return {
+          grid,
+          win: false,
+          balance: prevState.balance - prevState.stake,
+          payout: 0
+        };
+      });
+      return !1;
+    }
+
+    this.updateState(this.state, function(prevState) {
+      var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0];
+      var multiplier = this.symbols.find(function(sym) {
+          return sym.type.number === maxScore.symbol;
+      }).value;
+
+      var payout = maxScore.symbols * multiplier;
+      return {
+          accumulatedWin: prevState.accumulatedWin + payout,
+          win: true,
+          balance: prevState.balance + payout,
+          payout: payout
+      };
     });
-    this.notify(this.state);
   }
+
 
   assertWin(grid) {
     var context = this;
@@ -101,12 +137,12 @@ class Slot {
     };
 
     var matches = is(rv.reel1, rv.reel2) &&
-        is(rv.reel2, rv.reel3) &&
-        is(rv.reel3, rv.reel1);
+                  is(rv.reel2, rv.reel3) &&
+                  is(rv.reel3, rv.reel1);
 
     return {
       winState: matches,
-      symbol: matches ? rv.reel1 : null
+      symbol: matches ? rv.reel1 : null,
     };
   }
 
@@ -114,12 +150,14 @@ class Slot {
     this.observerList.update(state);
   }
 
-  updateState(update) {
-    Object.assign(this.state, update);
-  }
+  updateState(prevState, predicate) {
+    var update = predicate.call(this, prevState); /* ? */
 
-  checkWin() {
-
+    for (let key in update) {
+      if (this.state.hasOwnProperty(key)) {
+        this.state[key] = update[key];
+      }
+    }
   }
 
   exit() {
@@ -128,5 +166,9 @@ class Slot {
 }
 
 var slot = new Slot();
-slot.grid;
-/* ? */
+
+
+slot.spin();
+
+slot.state; /* ? JSON.stringify($, null, 2)*/
+
