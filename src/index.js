@@ -99,12 +99,12 @@ class Slot {
     }
 
     this.updateState(this.state, function(prevState) {
-      var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0];
+      var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0]; /* ? */
       var multiplier = this.symbols.find(function(sym) {
           return sym.type.number === maxScore.symbol;
       }).value;
 
-      var payout = maxScore.symbols * multiplier;
+      var payout = maxScore.symbol * multiplier * this.coinValue;
       return {
           accumulatedWin: prevState.accumulatedWin + payout,
           win: true,
@@ -151,7 +151,7 @@ class Slot {
   }
 
   updateState(prevState, predicate) {
-    var update = predicate.call(this, prevState); /* ? */
+    var update = predicate.call(this, prevState);
 
     for (let key in update) {
       if (this.state.hasOwnProperty(key)) {
@@ -168,6 +168,7 @@ class Slot {
 var slot = new Slot();
 
 
+slot.spin();
 slot.spin();
 
 slot.state; /* ? JSON.stringify($, null, 2)*/
