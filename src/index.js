@@ -1,16 +1,16 @@
 import RNG from './modules/rgn.js';
-import Observer from './modules/observerList.js';
+import Observers from './modules/observerList.js';
 import View from './modules/view.js';
 
 class Slot {
   constructor() {
-    this.observerList = new Observer();
+    this.observerList = new Observers();
     this.generator = new RNG({
       min: 1,
       max: 5,
     });
     this.observerList.subscribe(new View());
-    this.coinValue = 0.2;
+    this.coinValue = 0.02;
 
     this.symbols = [
       {
@@ -79,9 +79,9 @@ class Slot {
   }
 
   spin() {
-    var grid = this.state.grid.map(this.generator.shuffle, this);
+    this.state.grid.forEach(this.generator.shuffle, this);
 
-    var assertWin = this.assertWin(grid);
+    var assertWin = this.assertWin(this.state.grid);
     var winStats = this.winLines
                        .map(assertWin)
                        .filter(Boolean);
@@ -89,8 +89,8 @@ class Slot {
     if (!winStats.length) {
       this.updateState(this.state, function(prevState) {
         return {
-          grid,
           win: false,
+          accumulatedWin: prevState.accumulatedWin,
           balance: prevState.balance - prevState.stake,
           payout: 0
         };
@@ -99,15 +99,15 @@ class Slot {
     }
 
     this.updateState(this.state, function(prevState) {
-      var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0];
+      var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0]; /* ? */
       var multiplier = this.symbols.find(function(sym) {
           return sym.type.number === maxScore.symbol;
       }).value;
 
-      var payout = maxScore.symbols * multiplier;
+      var payout = maxScore.symbol * multiplier * this.coinValue;
       return {
           accumulatedWin: prevState.accumulatedWin + payout,
-          win: true,
+          win: maxScore.winState,
           balance: prevState.balance + payout,
           payout: payout
       };

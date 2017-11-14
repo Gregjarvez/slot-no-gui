@@ -1,4 +1,4 @@
-class Observer {
+class Observers {
   constructor() {
     this.observers = [];
   }
@@ -34,4 +34,4 @@ class Observer {
 }
 
 
-export default Observer;
+export default Observers;
