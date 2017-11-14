@@ -151,7 +151,7 @@ class Slot {
   }
 
   updateState(prevState, predicate) {
-    var update = predicate.call(this, prevState); /* ? */
+    var update = predicate.call(this, prevState);
 
     for (let key in update) {
       if (this.state.hasOwnProperty(key)) {
@@ -168,6 +168,7 @@ class Slot {
 var slot = new Slot();
 
 
+slot.spin();
 slot.spin();
 
 slot.state; /* ? JSON.stringify($, null, 2)*/
