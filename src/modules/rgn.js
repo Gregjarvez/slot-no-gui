@@ -8,18 +8,17 @@ class RNG {
   }
 
   randomArray(len) {
-    let values = [];
-    let count = 0;
+    var values = [];
+    var count = 0;
 
     while (count < len) {
-      values[count] = Math.floor(Math.random() * (this.max - this.min + 1
-      ) + this.min); ;
+      values[count] = Math.floor(
+          Math.random() * (this.max - this.min + 1) + this.min);
       count++;
     }
 
     return values;
   }
-
 
   shuffle(array) {
     var length = array.length,

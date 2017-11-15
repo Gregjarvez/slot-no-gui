@@ -11,16 +11,9 @@ class View {
   }
 
   shouldViewUpdate() {
-    var prevState;
-    return function shouldUpdate(state) {
-      var assignedState = state[this.assignState];
-
-      if (assignedState !== prevState) {
-        this.render(assignedState);
-        return !1;
-      };
-      this.render(prevState || ' ');
-      prevState = assignedState;
+    var assigned = this.assignState;
+    return function(state) {
+      this.render(state[assigned]);
     };
   }
 

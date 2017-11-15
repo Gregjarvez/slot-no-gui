@@ -1,18 +1,18 @@
 import RNG from './modules/rgn.js';
+import SlotManager from './modules/slotMAnager.js';
 import Observers from './modules/observerList.js';
 import View from './modules/view.js';
 import cgLogs from './modules/cg.js';
 
-class Slot {
+class Slot extends SlotManager {
   constructor() {
+    super();
     this.observerList = new Observers();
     this.generator = new RNG({
       min: 1,
       max: 5,
     });
-
     this.coinValue = 0.02;
-
     this.symbols = [
       {
         type: {
@@ -86,87 +86,28 @@ class Slot {
   }
 
   start() {
-    this.observerList
-        .update(this.state);
-  }
-  toFixed(val, points) {
-    return +(val).toFixed(points || 2);
+    this.notify();
   }
 
   spin() {
-    this.state.grid.forEach(this.generator.shuffle, this);
-
-    var assertWin = this.assertWin(this.state.grid);
+    this.shuffleGrid();
     var winStats = this.winLines
-        .map(assertWin)
+        .map(this.assertWin(this.state.grid))
         .filter(Boolean);
 
     if (!winStats.length) {
-      this.updateState(this.state, function(prevState) {
-        return {
-          win: false,
-          accumulatedWin: this.toFixed(prevState.accumulatedWin),
-          balance: this.toFixed(prevState.balance - prevState.stake),
-          payout: 0,
-        };
-      });
+      this.updateState(this.noMatchFound);
       View.clear();
-      this.observerList.update(this.state);
+      this.notify();
     } else {
-      this.updateState(this.state, function(prevState) {
-        var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0];
-
-        var multiplier = this.symbols.find(function(sym) {
-          return sym.type.number === maxScore.symbol;
-        }).value;
-
-        var payout = maxScore.symbol * multiplier * this.coinValue;
-
-        return {
-          accumulatedWin: this.toFixed(prevState.accumulatedWin + payout),
-          win: maxScore.winState,
-          balance: this.toFixed(prevState.balance + payout),
-          payout: payout,
-        };
-      });
+      this.updateState(this.matchFound(winStats));
       View.clear();
-      this.observerList.update(this.state);
+      this.notify();
     }
   }
 
-  assertWin(grid) {
-    var context = this;
-    return function(lines) {
-      var matches = this.deepCompare(lines, grid);
-
-      if (!matches.winState) {
-        return false;
-      }
-      return matches;
-    }.bind(context);
-  }
-
-  deepCompare(lines, grid) {
-    var is = Object.is;
-    var [l1, l2, l3] = lines;
-    var rv = {
-      reel1: grid[0][l1],
-      reel2: grid[1][l2],
-      reel3: grid[2][l3],
-    };
-
-    var matches = is(rv.reel1, rv.reel2) &&
-        is(rv.reel2, rv.reel3) &&
-        is(rv.reel3, rv.reel1);
-
-    return {
-      winState: matches,
-      symbol: matches ? rv.reel1 : null,
-    };
-  }
-
-  updateState(prevState, predicate) {
-    var update = predicate.call(this, prevState);
+  updateState(predicate) {
+    var update = predicate.call(this, this.state);
 
     for (let key in update) {
       if (this.state.hasOwnProperty(key)) {
@@ -175,7 +116,11 @@ class Slot {
     }
   }
 
-  exit() {
+  notify() {
+    this.observerList.update(this.state);
+  }
+
+  static exit() {
     console.clear();
   }
 }
