@@ -1,4 +1,5 @@
-var reelStructure = `
+export default (function() {
+  var reelStructure = `
  |--%s--|--%s--|--%s--|
  
  |--%s--|--%s--|--%s--|
@@ -6,20 +7,44 @@ var reelStructure = `
  |--%s--|--%s--|--%s--|
 `;
 
-var win = `you win %s`;
+  function reels(reelsArray) {
+    var each = 0;
+    var display = [reelStructure];
 
-export function reels(reelsArray) {
-  var each = 0;
-  var display = [reelStructure];
-  for (var i = 0; i < 9; i++) {
-    var j = i % reelsArray.length;
-    if (j === 3) each++;
-    display.push(reelsArray[j][each]);
+    for (var i = 0; i < 9; i++) {
+      var j = i % reelsArray.length;
+      display.push(reelsArray[j][each]);
+      if (j === 2) each++;
+    }
+    return console.log.apply(null, display);
   }
-  return console.log.apply(null, display);
-}
 
+  function winMessage(amount) {
+    return console.log(`win: $%s`, amount);
+  }
 
-export function winMessage(message) {
-    return console.log(win, message);
-}
+  function spinReelMessage() {
+    return console.log('type spin to spin the reel');
+  }
+
+  function accumulatedWin(amount) {
+    return console.log('Total Win: $%s', amount);
+  }
+
+  function stake(stake) {
+    return console.log('Bet Amount: $%s', stake);
+  }
+
+  function cash(amount)  {
+    return console.log('Cash: $%s', amount);
+  }
+  return {
+    spinReelMessage: spinReelMessage,
+    winMessage: winMessage,
+    accumulatedWin: accumulatedWin,
+    reels: reels,
+    stake: stake,
+    cash: cash
+  };
+}());
+

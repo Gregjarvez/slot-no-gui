@@ -1,9 +1,7 @@
 class View {
-  constructor(state, view) {
-    Object.assign(this, {
-      view: view,
-      state: state,
-    });
+  constructor(view, assignState) {
+    this.view = view;
+    this.assignState = assignState;
 
     this.shouldUpdate = this.shouldViewUpdate();
   }
@@ -15,13 +13,23 @@ class View {
   shouldViewUpdate() {
     var prevState;
     return function shouldUpdate(state) {
-      state === prevState && this.render(state);
-      prevState = state;
+      var assignedState = state[this.assignState];
+
+      if (assignedState !== prevState) {
+        this.render(assignedState);
+        return !1;
+      };
+      this.render(prevState || ' ');
+      prevState = assignedState;
     };
   }
 
-  render(state) {
-    this.view(state);
+  render(assignedState) {
+    this.view(assignedState);
+  }
+
+  static clear() {
+    return console.clear();
   }
 }
 

@@ -18,19 +18,12 @@ class Observers {
     return this;
   }
 
-  remove(index) {
-    this.observers.splice(index, 1);
-  }
-
-  update(context, params) {
+  update(param) {
     this.observers.forEach(function(obs) {
-        obs.update.call(context, params);
+        obs.update.call(obs, param);
     });
   }
 
-  find(predicate) {
-    return this.observers.find(predicate);
-  }
 }
 
 

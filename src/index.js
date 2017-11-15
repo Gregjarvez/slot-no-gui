@@ -1,6 +1,7 @@
 import RNG from './modules/rgn.js';
 import Observers from './modules/observerList.js';
 import View from './modules/view.js';
+import cgLogs from './modules/cg.js';
 
 class Slot {
   constructor() {
@@ -9,7 +10,7 @@ class Slot {
       min: 1,
       max: 5,
     });
-    this.observerList.subscribe(new View());
+
     this.coinValue = 0.02;
 
     this.symbols = [
@@ -71,11 +72,25 @@ class Slot {
       payout: 0,
     };
 
+    this.observerList.subscribe([
+      new View(cgLogs.reels, 'grid'),
+      new View(cgLogs.winMessage, 'payout'),
+      new View(cgLogs.accumulatedWin, 'accumulatedWin'),
+      new View(cgLogs.stake, 'stake'),
+      new View(cgLogs.cash, 'balance'),
+      new View(cgLogs.spinReelMessage),
+    ]);
+
     this.spin = this.spin.bind(this);
+    this.start();
   }
 
   start() {
-    this.notify(this.state);
+    this.observerList
+        .update(this.state);
+  }
+  toFixed(val, points) {
+    return +(val).toFixed(points || 2);
   }
 
   spin() {
@@ -83,37 +98,41 @@ class Slot {
 
     var assertWin = this.assertWin(this.state.grid);
     var winStats = this.winLines
-                       .map(assertWin)
-                       .filter(Boolean);
+        .map(assertWin)
+        .filter(Boolean);
 
     if (!winStats.length) {
       this.updateState(this.state, function(prevState) {
         return {
           win: false,
-          accumulatedWin: prevState.accumulatedWin,
-          balance: prevState.balance - prevState.stake,
-          payout: 0
+          accumulatedWin: this.toFixed(prevState.accumulatedWin),
+          balance: this.toFixed(prevState.balance - prevState.stake),
+          payout: 0,
         };
       });
-      return !1;
-    }
+      View.clear();
+      this.observerList.update(this.state);
+    } else {
+      this.updateState(this.state, function(prevState) {
+        var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0];
 
-    this.updateState(this.state, function(prevState) {
-      var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0]; /* ? */
-      var multiplier = this.symbols.find(function(sym) {
+        var multiplier = this.symbols.find(function(sym) {
           return sym.type.number === maxScore.symbol;
-      }).value;
+        }).value;
 
-      var payout = maxScore.symbol * multiplier * this.coinValue;
-      return {
-          accumulatedWin: prevState.accumulatedWin + payout,
+        var payout = maxScore.symbol * multiplier * this.coinValue;
+
+        return {
+          accumulatedWin: this.toFixed(prevState.accumulatedWin + payout),
           win: maxScore.winState,
-          balance: prevState.balance + payout,
-          payout: payout
-      };
-    });
+          balance: this.toFixed(prevState.balance + payout),
+          payout: payout,
+        };
+      });
+      View.clear();
+      this.observerList.update(this.state);
+    }
   }
-
 
   assertWin(grid) {
     var context = this;
@@ -137,17 +156,13 @@ class Slot {
     };
 
     var matches = is(rv.reel1, rv.reel2) &&
-                  is(rv.reel2, rv.reel3) &&
-                  is(rv.reel3, rv.reel1);
+        is(rv.reel2, rv.reel3) &&
+        is(rv.reel3, rv.reel1);
 
     return {
       winState: matches,
       symbol: matches ? rv.reel1 : null,
     };
-  }
-
-  notify(state) {
-    this.observerList.update(state);
   }
 
   updateState(prevState, predicate) {
@@ -165,11 +180,5 @@ class Slot {
   }
 }
 
-var slot = new Slot();
-
-
-slot.spin();
-slot.spin();
-
-slot.state; /* ? JSON.stringify($, null, 2)*/
+window.slot = new Slot();
 
