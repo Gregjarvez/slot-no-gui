@@ -1,8 +1,7 @@
 class RNG {
   constructor(config) {
     this.min = config.min || 0;
-    this.max = config.max || 1000;
-    this.type = config.type || 'primitive';
+    this.max = config.max || 10;
 
     this.randomArray = this.randomArray.bind(this);
   }

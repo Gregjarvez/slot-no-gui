@@ -1,4 +1,14 @@
+import config from './assets.js';
+import RNG from './rgn.js';
+
 class SlotManager {
+  constructor() {
+    Object.assign(this, config);
+
+    this.rng = new RNG(this.rngConfig);
+    this.initialGrid = this.computeInitialGrid();
+  }
+
   toFixed(val, points) {
     return +(val).toFixed(points || 2);
   }
@@ -38,12 +48,6 @@ class SlotManager {
     }.bind(context);
   }
 
-  predicate(winStats) {
-    return winStats.length
-        ? this.matchFound(winStats)
-        : this.noMatchFound;
-  }
-
   noMatchFound(prevState) {
     return {
       win: false,
@@ -71,6 +75,12 @@ class SlotManager {
         payout: payout,
       };
     };
+  }
+
+  computeInitialGrid() {
+    return new Array(this.gridLength)
+        .fill(this.reelLength)
+        .map(this.rng.randomArray);
   }
 }
 

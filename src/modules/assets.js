@@ -1,31 +1,16 @@
 var config = {
-  rngConfiguration: {
+  rngConfig: {
     min: 1,
     max: 5,
   },
   coinValue: 0.50,
-  defaultStake: 10,
+  stake: 10,
   symbols: [
-    {
-      type: {number: 1, symbol: 'bell'},
-      value: 20,
-    },
-    {
-      type: {number: 2, symbol: 'cherry'},
-      value: 40,
-    },
-    {
-      type: {number: 3, symbol: 'orange'},
-      value: 5,
-    },
-    {
-      type: {number: 4, symbol: 'prune'},
-      value: 15,
-    },
-    {
-      type: {number: 5, symbol: 'seven'},
-      value: 100,
-    },
+    {type: 1, value: 20},
+    {type: 2, value: 40},
+    {type: 3, value: 5},
+    {type: 4, value: 15},
+    {type: 5, value: 100},
   ],
   winLines: [
     [0, 0, 0],
@@ -35,6 +20,8 @@ var config = {
     [0, 0, 1],
     [2, 1, 0],
   ],
+  gridLength: 3,
+  reelLength: 5
 };
 
 export default config;

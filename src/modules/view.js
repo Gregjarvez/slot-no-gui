@@ -1,25 +1,35 @@
-class View {
-  constructor(renderer, assignState) {
-    this.renderer = renderer;
-    this.assignState = assignState;
+import cgLogs from './cg.js';
 
-    this.shouldUpdate = this.shouldViewUpdate();
+function View(state) {
+  var renderer = {
+    grid: cgLogs.reels,
+    payout: cgLogs.winMessage,
+    stake: cgLogs.stake,
+    accumulatedWin: cgLogs.accumulatedWin,
+    balance: cgLogs.cash,
+    logger: cgLogs.spinReelMessage,
+  };
+
+  class ViewDescriptor {
+    constructor(state) {
+      this.assignedState = state;
+      this.renderer = renderer[state] || renderer.logger;
+    }
+
+    update(state) {
+      this.renderer(state[this.assignedState]);
+    }
+
+    static clear() {
+      return console.clear();
+    }
   }
 
-  update(state) {
-    this.shouldUpdate(state);
-  }
+  return new ViewDescriptor(state);
+};
 
-  shouldViewUpdate() {
-    var assigned = this.assignState;
-    return function(state) {
-      this.renderer(state[assigned]);
-    };
-  }
-
-  static clear() {
-    return console.clear();
-  }
-}
+export const possibleViews = [
+  'grid', 'payout', 'accumulatedWin', 'balance', 'stake', 'logger'
+];
 
 export default View;

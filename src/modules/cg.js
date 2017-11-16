@@ -41,6 +41,7 @@ export default (function() {
     return console.log('Cash: $%s', amount);
   }
 
+
   return {
     spinReelMessage: spinReelMessage,
     winMessage: winMessage,
