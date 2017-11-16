@@ -54,7 +54,7 @@ class Game extends SlotManager {
     this.start();
   }
 
-   start() {
+  start() {
     this.notify();
   }
 
