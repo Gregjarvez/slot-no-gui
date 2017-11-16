@@ -1,6 +1,6 @@
 class View {
-  constructor(view, assignState) {
-    this.view = view;
+  constructor(renderer, assignState) {
+    this.renderer = renderer;
     this.assignState = assignState;
 
     this.shouldUpdate = this.shouldViewUpdate();
@@ -13,12 +13,8 @@ class View {
   shouldViewUpdate() {
     var assigned = this.assignState;
     return function(state) {
-      this.render(state[assigned]);
+      this.renderer(state[assigned]);
     };
-  }
-
-  render(assignedState) {
-    this.view(assignedState);
   }
 
   static clear() {

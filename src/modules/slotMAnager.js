@@ -1,11 +1,10 @@
 class SlotManager {
-
   toFixed(val, points) {
     return +(val).toFixed(points || 2);
   }
 
-  shuffleGrid() {
-    this.state.grid.forEach(this.generator.shuffle, this);
+  shuffle() {
+    this.state.grid.forEach(this.rng.shuffle, this);
   }
 
   deepCompare(lines, grid) {
@@ -39,6 +38,12 @@ class SlotManager {
     }.bind(context);
   }
 
+  predicate(winStats) {
+    return winStats.length
+        ? this.matchFound(winStats)
+        : this.noMatchFound;
+  }
+
   noMatchFound(prevState) {
     return {
       win: false,
@@ -49,10 +54,12 @@ class SlotManager {
   };
 
   matchFound(winStats) {
-    var maxScore = winStats.sort((a, b) => b.symbol - a.symbol)[0];
+    var maxScore = winStats.sort(function(a, b) {
+      return b.symbol - a.symbol;
+    })[0];
 
     var multiplier = this.symbols.find(function(sym) {
-      return sym.type.number === maxScore.symbol;
+      return sym.type === maxScore.symbol;
     }).value;
 
     var payout = maxScore.symbol * multiplier * this.coinValue;

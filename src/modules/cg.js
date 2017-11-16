@@ -1,11 +1,13 @@
 export default (function() {
   var reelStructure = `
- |--%s--|--%s--|--%s--|
+ |---%s--- | ---%s--- | ---%s--- |
  
- |--%s--|--%s--|--%s--|
+ |---%s--- | ---%s--- | ---%s--- |
  
- |--%s--|--%s--|--%s--|
+ |---%s--- | ---%s--- | ---%s--- |
 `;
+
+  var symbols = ['bll', 'che', 'org', 'app', 'sev'];
 
   function reels(reelsArray) {
     var each = 0;
@@ -13,7 +15,7 @@ export default (function() {
 
     for (var i = 0; i < 9; i++) {
       var j = i % reelsArray.length;
-      display.push(reelsArray[j][each]);
+      display.push(symbols[reelsArray[j][each] - 1]);
       if (j === 2) each++;
     }
     return console.log.apply(null, display);
@@ -35,16 +37,21 @@ export default (function() {
     return console.log('Bet Amount: $%s', stake);
   }
 
-  function cash(amount)  {
+  function cash(amount) {
     return console.log('Cash: $%s', amount);
   }
+
+  function winLine(winLine){
+    
+  }
+
   return {
     spinReelMessage: spinReelMessage,
     winMessage: winMessage,
     accumulatedWin: accumulatedWin,
     reels: reels,
     stake: stake,
-    cash: cash
+    cash: cash,
   };
 }());
 

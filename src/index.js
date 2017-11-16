@@ -4,51 +4,21 @@ import Observers from './modules/observerList.js';
 import View from './modules/view.js';
 import cgLogs from './modules/cg.js';
 
-class Slot extends SlotManager {
+class Game extends SlotManager {
   constructor() {
     super();
-    this.observerList = new Observers();
-    this.generator = new RNG({
+    this.observerList = new Observers;
+    this.rng = new RNG({
       min: 1,
       max: 5,
     });
-    this.coinValue = 0.02;
+    this.coinValue = 0.5;
     this.symbols = [
-      {
-        type: {
-          number: 1,
-          symbol: 'bell',
-        },
-        value: 20,
-      },
-      {
-        type: {
-          number: 2,
-          symbol: 'cherry',
-        },
-        value: 40,
-      },
-      {
-        type: {
-          number: 3,
-          symbol: 'orange',
-        },
-        value: 5,
-      },
-      {
-        type: {
-          number: 4,
-          symbol: 'prune',
-        },
-        value: 15,
-      },
-      {
-        type: {
-          number: 5,
-          symbol: 'seven',
-        },
-        value: 100,
-      },
+      {type: 1, value: 20},
+      {type: 2, value: 40},
+      {type: 3, value: 5},
+      {type: 4, value: 15},
+      {type: 5, value: 100},
     ];
 
     this.winLines = [
@@ -63,7 +33,7 @@ class Slot extends SlotManager {
     this.state = {
       grid: new Array(3)
           .fill(5)
-          .map(this.generator.randomArray),
+          .map(this.rng.randomArray),
 
       accumulatedWin: 0,
       balance: 1000,
@@ -80,37 +50,30 @@ class Slot extends SlotManager {
       new View(cgLogs.cash, 'balance'),
       new View(cgLogs.spinReelMessage),
     ]);
-
     this.spin = this.spin.bind(this);
     this.start();
   }
 
-  start() {
+   start() {
     this.notify();
   }
 
   spin() {
-    this.shuffleGrid();
+    this.shuffle.call(this);
     var winStats = this.winLines
-        .map(this.assertWin(this.state.grid))
+        .map(this.manager.assertWin(this.state.grid))
         .filter(Boolean);
 
-    if (!winStats.length) {
-      this.updateState(this.noMatchFound);
-      View.clear();
-      this.notify();
-    } else {
-      this.updateState(this.matchFound(winStats));
-      View.clear();
-      this.notify();
-    }
+    this.updateState(this.predicate(winStats));
+    View.clear();
+    this.notify();
   }
 
   updateState(predicate) {
     var update = predicate.call(this, this.state);
 
     for (let key in update) {
-      if (this.state.hasOwnProperty(key)) {
+      if (update.hasOwnProperty(key)) {
         this.state[key] = update[key];
       }
     }
@@ -125,5 +88,5 @@ class Slot extends SlotManager {
   }
 }
 
-window.slot = new Slot();
+window.game = new Game();
 
