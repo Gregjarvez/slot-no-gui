@@ -1,12 +1,12 @@
 import Game from '../src/modules/game.js';
 import makeGlobalDatabase from './database.js';
 
-const globalDatabase = makeGlobalDatabase();
+const globalDatabase = makeGlobalDatabase('game');
 
 describe('Game Function ', () => {
   beforeEach(() => {
     return globalDatabase.clear().then((database) => {
-      return database.insert({game: new Game()});
+      return database.insert({value: new Game()});
     });
   });
 
@@ -44,12 +44,12 @@ describe('Game Function ', () => {
         ...game.state
       };
       const afterState = {
-        grid: [[], [], []],
-        win: true,
+        grid          : [[], [], []],
+        win           : true,
         accumulatedWin: 20,
-        balance: 1000,
-        stake: 10,
-        payout: 0,
+        balance       : 1000,
+        stake         : 10,
+        payout        : 0,
       };
       game.updateState(() => afterState);
       const newState = game.state;
@@ -60,11 +60,16 @@ describe('Game Function ', () => {
 
   test('predicate returns the right function', () => {
     return globalDatabase.find('game', (game) => {
-       const emptyWinStats = [];
-       const filledWinStats = new Array(1).fill({});
+      const emptyWinStats = [];
+      expect(game.predicate(emptyWinStats).name).toBe('noMatchFound');
 
-       expect(game.predicate(filledWinStats)).toHaveBeenCalled();
-       expect(game.predicate(emptyWinStats).name).toBe('noMatchFound')
+      const filledWinStats = new Array(1).fill({
+        winState: true,
+        symbol  : 3,
+      });
+      const matchFound = jest.spyOn(game, 'matchFound');
+      game.predicate(filledWinStats);
+      expect(matchFound).toHaveBeenCalled();
     });
   });
 });

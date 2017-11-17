@@ -66,7 +66,7 @@ class SlotManager {
       return sym.type === maxScore.symbol;
     }).value;
 
-    var payout = maxScore.symbol * multiplier * this.coinValue;
+    var payout = 3 * multiplier * this.coinValue;
     return function(prevState) {
       return {
         accumulatedWin: this.toFixed(prevState.accumulatedWin + payout),

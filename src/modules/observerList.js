@@ -23,7 +23,6 @@ class Observers {
         obs.update.call(obs, param);
     });
   }
-
 }
 
 

@@ -1,7 +1,7 @@
-function makeGlobalDatabase() {
-
+function makeGlobalDatabase(name) {
   class DataBase {
-    constructor() {
+    constructor(name) {
+      this.name = name;
       this.data = new Map();
     }
 
@@ -10,8 +10,8 @@ function makeGlobalDatabase() {
       return callBack(results);
     }
 
-    insert({game}) {
-      this.data.set('game', game);
+    insert({value}) {
+      this.data.set(this.name, value);
     }
 
     clear() {
@@ -20,7 +20,7 @@ function makeGlobalDatabase() {
     }
   }
 
-  return new DataBase();
+  return new DataBase(name);
 }
 
 export default makeGlobalDatabase;
