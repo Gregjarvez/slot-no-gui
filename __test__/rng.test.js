@@ -30,8 +30,10 @@ describe('Random number generator ', () => {
   test('random array is within range', () => {
     return db.find('rng', (rng) => {
       const randomArray = rng.randomArray(5);
-      expect(Math.max(...randomArray)).toEqual(rng.max);
-      expect(Math.min(...randomArray)).toEqual(rng.min);
+      const max = Math.max(...randomArray) <= rng.max;
+      const min = Math.min(...randomArray) >= rng.min;
+      expect(max).toBeTruthy();
+      expect(min).toBeTruthy();
     });
   });
 });

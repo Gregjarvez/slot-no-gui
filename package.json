@@ -1,11 +1,8 @@
 {
   "scripts": {
-    "test": "SET NODE_ENV=test jest",
+    "test": "jest",
     "test:update": "SET NODE_ENV=test jest -u",
     "serve": "browser-sync start --server --directory"
-  },
-  "dependencies": {
-    "faker": "^4.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -19,5 +16,8 @@
   },
   "quokka": {
     "babel": true
+  },
+  "dependencies": {
+    "jest-cli": "^21.2.1"
   }
 }

@@ -14,6 +14,7 @@ class Game extends SlotManager {
       stake: 10,
       payout: 0,
     };
+    this.inititialState = Object.assign({}, this.state);
     this.views = possibleViews;
     this.observerList.subscribe(this.views.map(view));
 
@@ -38,6 +39,10 @@ class Game extends SlotManager {
 
     this.updateState(this.predicate(winStats));
     this.clear();
+    if (this.state.balance === 0) {
+      this.reset();
+      this.clear();
+    }
     this.notify();
   }
 
@@ -57,6 +62,11 @@ class Game extends SlotManager {
 
   clear() {
     console.clear();
+  }
+
+  reset() {
+    this.state = this.inititialState;
+    this.notify();
   }
 }
 

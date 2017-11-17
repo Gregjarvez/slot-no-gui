@@ -10,7 +10,7 @@ class SlotManager {
   }
 
   toFixed(val, points) {
-    return +(val).toFixed(points || 2);
+    return +((val).toFixed(points || 2));
   }
 
   shuffle() {
