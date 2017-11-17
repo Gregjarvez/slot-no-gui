@@ -38,12 +38,13 @@ class Game extends SlotManager {
         .map(this.assertWin(this.state.grid))
         .filter(Boolean);
 
-    this.updateState(this.predicate(winStats));
     this.clear();
     if (this.state.balance === 0) {
       this.reset();
       this.clear();
+	    return;
     }
+	this.updateState(this.predicate(winStats));
     this.notify();
   }
 
