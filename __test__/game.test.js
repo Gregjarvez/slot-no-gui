@@ -72,4 +72,26 @@ describe('Game Function ', () => {
       expect(matchFound).toHaveBeenCalled();
     });
   });
+
+	test('should trigger reset when balance is 0', () => {
+		return globalDatabase.find('game', (game) => {
+			game.state.balance = 0;
+			const reset = jest.spyOn(game, 'reset');
+			game.spin();
+
+			expect(reset).toHaveBeenCalled();
+		});
+	});
+	
+	test('should not trigger reset when balance is > 0', () => {
+		return globalDatabase.find('game', (game) => {
+			game.state.balance = 1000;
+			const reset = jest.spyOn(game, 'reset');
+			game.spin();
+
+			expect(reset).not.toHaveBeenCalled();
+		});
+	
+	});
+
 });
