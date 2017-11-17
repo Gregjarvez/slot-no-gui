@@ -11,7 +11,7 @@ class Game extends SlotManager {
       win: false,
       accumulatedWin: 0,
       balance: 1000,
-      stake: 10,
+      stake: this.stake,
       payout: 0,
     };
     this.inititialState = Object.assign({}, this.state);
@@ -19,6 +19,7 @@ class Game extends SlotManager {
     this.observerList.subscribe(this.views.map(view));
 
     this.spin = this.spin.bind(this);
+    this.start();
   }
 
   start() {
@@ -56,6 +57,12 @@ class Game extends SlotManager {
     }
   }
 
+  changeStake(amount) {
+    if (amount !== this.state.stake)
+      this.state.stake = amount;
+    return this;
+  }
+
   notify() {
     this.observerList.update(this.state);
   }
@@ -67,6 +74,11 @@ class Game extends SlotManager {
   reset() {
     this.state = this.inititialState;
     this.notify();
+  }
+  currency(){
+    if(this.state.currency === 'GBP'){
+
+    }
   }
 }
 
