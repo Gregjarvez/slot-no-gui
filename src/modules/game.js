@@ -13,8 +13,11 @@ class Game extends SlotManager {
       balance: 1000,
       stake: this.stake,
       payout: 0,
+      currency: 'GBP',
     };
-    this.inititialState = Object.assign({}, this.state);
+
+    this.conversionChanged = false;
+    this.initialState = Object.assign({}, this.state);
     this.views = possibleViews;
     this.observerList.subscribe(this.views.map(view));
 
@@ -23,7 +26,9 @@ class Game extends SlotManager {
   }
 
   start() {
+    this.conversion = this.currencyConversion();
     this.notify();
+    this.unregister('logger');
   }
 
   predicate(winStats) {
@@ -41,10 +46,10 @@ class Game extends SlotManager {
     this.clear();
     if (this.state.balance === 0) {
       this.reset();
-      this.clear();
-	    return;
+      this.notify();
+      return;
     }
-	this.updateState(this.predicate(winStats));
+    this.updateState(this.predicate(winStats));
     this.notify();
   }
 
@@ -58,14 +63,12 @@ class Game extends SlotManager {
     }
   }
 
-  changeStake(amount) {
-    if (amount !== this.state.stake)
-      this.state.stake = amount;
-    return this;
-  }
-
   notify() {
     this.observerList.update(this.state);
+  }
+
+  unregister(view) {
+    this.observerList.unregister(view);
   }
 
   clear() {
@@ -73,13 +76,95 @@ class Game extends SlotManager {
   }
 
   reset() {
-    this.state = this.inititialState;
+    this.updateState(function() {
+      return this.initialState;
+    });
     this.notify();
   }
-  currency(){
-    if(this.state.currency === 'GBP'){
 
+  changeStake(amount) {
+    if (amount !== this.state.stake)
+      this.state.stake = amount;
+  }
+
+  setInitialBalance(amount) {
+    this.updateState(function() {
+      return {
+        balance: amount,
+      };
+    });
+  }
+
+  changeCurrency(currency) {
+    if (!this.conversionChanged) {
+      this.conversionChanged = true;
     }
+
+    this.updateState(function() {
+      return {
+        currency: currency,
+      };
+    });
+
+    this.updateState(this.conversion);
+    this.notify();
+  }
+
+  currencyConversion() {
+    let conversion = {
+      unitToUSD: 1.33,
+      unitToGBP: 0.75,
+      GBP: 'GBP',
+      USD: 'USD',
+    };
+    let stakeToUSD = this.state.stake / conversion.unitToGBP;
+    let defaultState = this.state.stake;
+
+    return function(prevState) {
+      const params = {
+        win: prevState.win,
+        accumulatedWin: prevState.accumulatedWin,
+        balance: prevState.balance,
+        payout: prevState.payout,
+        stake: prevState.currency === conversion.GBP
+            ? defaultState
+            : stakeToUSD,
+      };
+
+      if (prevState.currency === conversion.GBP && this.conversionChanged) {
+        var update = this.calc(
+            params,
+            conversion.unitToGBP,
+            conversion.GBP);
+      }
+
+      if (prevState.currency === conversion.USD) {
+        var update = this.calc(
+            params,
+            conversion.unitToGBP, conversion.USD);
+      }
+
+        return update
+    };
+  }
+
+  calc(object, rate, unit) {
+    const prev = Object.assign({}, object);
+    Object.assign(object, Object.keys(prev).reduce((cur, next) => {
+      if (next === 'stake') {
+        cur[next] = prev[next];
+        return cur;
+      }
+      if (unit === 'GBP') {
+        cur[next] = this.toFixed(prev[next] * rate);
+        return cur;
+      }
+
+      cur[next] = this.toFixed(prev[next] / rate);
+      return cur;
+    }, {}));
+
+    return object;
   }
 }
 

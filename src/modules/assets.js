@@ -3,7 +3,7 @@ var config = {
     min: 1,
     max: 5,
   },
-  coinValue: 0.50,
+  coinValue: 0.02,
   stake: 10,
   symbols: [
     {type: 1, value: 20},

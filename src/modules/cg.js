@@ -26,7 +26,12 @@ export default (function() {
   }
 
   function spinReelMessage() {
-    return console.log('type spin to spin the reel');
+    return console.log(`
+    - type game.setCurrency to change currency (GBP, UD)
+    - default currency is GBP
+    - game.changeStake(stake: number) to change skate
+    - game.setInitialBalance(balance) default 1000
+    `);
   }
 
   function accumulatedWin(amount) {

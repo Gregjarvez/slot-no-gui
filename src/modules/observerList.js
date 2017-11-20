@@ -20,10 +20,15 @@ class Observers {
 
   update(param) {
     this.observers.forEach(function(obs) {
-        obs.update.call(obs, param);
+      obs.update.call(obs, param);
     });
   }
-}
 
+  unregister(view) {
+    const update = this.observers
+        .filter(observer => observer.assignedState !== view);
+    this.observers = update;
+  }
+}
 
 export default Observers;
