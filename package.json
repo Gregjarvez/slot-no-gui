@@ -2,7 +2,7 @@
   "scripts": {
     "test": "jest",
     "test:update": "SET NODE_ENV=test jest -u",
-    "serve": "browser-sync start --server --directory"
+    "serve": "browser-sync start --startPath=src/index.html --files=src/**/*.*"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -11,8 +11,7 @@
     "browser-sync": "^2.18.13",
     "eslint": "^4.11.0",
     "eslint-config-google": "^0.9.1",
-    "jest": "^21.2.1",
-    "prettier": "^1.8.2"
+    "jest": "^21.2.1"
   },
   "quokka": {
     "babel": true

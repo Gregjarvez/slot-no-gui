@@ -1,7 +1,20 @@
 import Game from './modules/game.js';
-import config from './modules/assets.js';
+
+var slot = new Game();
+
+function gui (){
+  var spin = document.querySelector('.spin')
+  var reset = document.querySelector('.reset');
+  var currencyConversion = document.querySelector('.currency')
+
+  spin.addEventListener('click', slot.spin.bind(slot))
+  reset.addEventListener('click', slot.reset.bind(slot))
+
+  currencyConversion.addEventListener('change', () => {
+    slot.changeCurrency.call(slot, currencyConversion.value)
+  })
+}
 
 
-window.game = new Game(config);
-window.spin = game.spin.bind(game);
 
+gui();

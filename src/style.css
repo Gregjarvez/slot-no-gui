@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Microsoft Himalaya";
+}
+
+canvas {
+    margin: 0;
+}
+
+.app {
+    display: flex;
+    width: 400px;
+    justify-content: space-around;
+    margin: 10% 0;
+    padding: 0;
+    border: 1px solid #eee;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.app > div {
+    width: 100%;
+    margin: 5px;
+}
+
+.buttons {
+    outline: none;
+    border: 0;
+    background: #E8E8E8;
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+    padding: 3px;
+    transition: background 600ms ease;
+    cursor: pointer;
+}
+
+.buttons:hover {
+    background: #333;
+    color: white;
+}
+
+.currency {
+    width: 100%;
+    outline: none;
+    margin: 2px;
+}
+
+.bet-table span {
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
+}

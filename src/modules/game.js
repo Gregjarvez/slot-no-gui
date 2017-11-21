@@ -1,6 +1,6 @@
 import SlotManager from './slotMAnager.js';
 import Observers from './observerList.js';
-import view, {possibleViews} from './view.js';
+import view, {possibleViews} from '../gui/view.js';
 
 class Game extends SlotManager {
   constructor() {
@@ -28,7 +28,6 @@ class Game extends SlotManager {
   start() {
     this.conversion = this.currencyConversion();
     this.notify();
-    this.unregister('logger');
   }
 
   predicate(winStats) {
@@ -43,7 +42,6 @@ class Game extends SlotManager {
         .map(this.assertWin(this.state.grid))
         .filter(Boolean);
 
-    this.clear();
     if (this.state.balance === 0) {
       this.reset();
       this.notify();
@@ -69,10 +67,6 @@ class Game extends SlotManager {
 
   unregister(view) {
     this.observerList.unregister(view);
-  }
-
-  clear() {
-    console.clear();
   }
 
   reset() {
@@ -112,7 +106,6 @@ class Game extends SlotManager {
 
   currencyConversion() {
     let conversion = {
-      unitToUSD: 1.33,
       unitToGBP: 0.75,
       GBP: 'GBP',
       USD: 'USD',
@@ -162,7 +155,7 @@ class Game extends SlotManager {
 
       cur[next] = this.toFixed(prev[next] / rate);
       return cur;
-    }, {}));
+    }, {}),this);
 
     return object;
   }

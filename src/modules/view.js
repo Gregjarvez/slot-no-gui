@@ -29,7 +29,7 @@ function View(state) {
 };
 
 export const possibleViews = [
-  'grid', 'payout', 'accumulatedWin', 'balance', 'stake', 'logger'
+  'grid', 'payout', 'accumulatedWin', 'balance', 'stake'
 ];
 
 export default View;
