@@ -1,5 +1,5 @@
 import grid from './canvas.js';
-import { totalWin, stake, payout, balance } from './rest.js';
+import {totalWin, stake, payout, balance} from './rest.js';
 
 export default {
   grid,
@@ -7,4 +7,4 @@ export default {
   stake,
   payout,
   balance
-}
+};

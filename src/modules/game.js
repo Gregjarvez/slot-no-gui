@@ -20,7 +20,6 @@ class Game extends SlotManager {
     this.initialState = Object.assign({}, this.state);
     this.views = possibleViews;
     this.observerList.subscribe(this.views.map(view));
-
     this.spin = this.spin.bind(this);
     this.start();
   }
@@ -47,6 +46,7 @@ class Game extends SlotManager {
       this.notify();
       return;
     }
+    debugger;
     this.updateState(this.predicate(winStats));
     this.notify();
   }
@@ -59,7 +59,7 @@ class Game extends SlotManager {
         this.state[key] = update[key];
       }
     }
-  }
+}
 
   notify() {
     this.observerList.update(this.state);
@@ -73,12 +73,13 @@ class Game extends SlotManager {
     this.updateState(function() {
       return this.initialState;
     });
-    this.notify();
+    this.start();
   }
 
   changeStake(amount) {
-    if (amount !== this.state.stake)
+    if (amount !== this.state.stake) {
       this.state.stake = amount;
+    }
   }
 
   setInitialBalance(amount) {
@@ -99,7 +100,6 @@ class Game extends SlotManager {
         currency: currency,
       };
     });
-
     this.updateState(this.conversion);
     this.notify();
   }
@@ -110,7 +110,7 @@ class Game extends SlotManager {
       GBP: 'GBP',
       USD: 'USD',
     };
-    let stakeToUSD = this.state.stake / conversion.unitToGBP;
+    let stakeToUSD = this.state.stake * conversion.unitToGBP;
     let defaultState = this.state.stake;
 
     return function(prevState) {
@@ -125,6 +125,7 @@ class Game extends SlotManager {
       };
 
       if (prevState.currency === conversion.GBP && this.conversionChanged) {
+
         var update = this.calc(
             params,
             conversion.unitToGBP,
@@ -134,28 +135,26 @@ class Game extends SlotManager {
       if (prevState.currency === conversion.USD) {
         var update = this.calc(
             params,
-            conversion.unitToGBP, conversion.USD);
+            conversion.unitToGBP,
+            conversion.USD);
       }
-
-        return update
+        return update;
     };
   }
 
   calc(object, rate, unit) {
-    const prev = Object.assign({}, object);
-    Object.assign(object, Object.keys(prev).reduce((cur, next) => {
+
+    Object.assign(object, Object.keys(object).reduce((cur, next) => {
       if (next === 'stake') {
-        cur[next] = prev[next];
         return cur;
       }
       if (unit === 'GBP') {
-        cur[next] = this.toFixed(prev[next] * rate);
+        cur[next] = this.toFixed(object[next] * rate, 1);
         return cur;
       }
-
-      cur[next] = this.toFixed(prev[next] / rate);
+      cur[next] = this.toFixed(object[next] / rate, 1);
       return cur;
-    }, {}),this);
+    }, {}), this);
 
     return object;
   }

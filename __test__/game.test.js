@@ -44,12 +44,12 @@ describe('Game Function ', () => {
         ...game.state
       };
       const afterState = {
-        grid          : [[], [], []],
-        win           : true,
+        grid: [[], [], []],
+        win: true,
         accumulatedWin: 20,
-        balance       : 1000,
-        stake         : 10,
-        payout        : 0,
+        balance: 1000,
+        stake: 10,
+        payout: 0,
       };
       game.updateState(() => afterState);
       const newState = game.state;
@@ -65,7 +65,7 @@ describe('Game Function ', () => {
 
       const filledWinStats = new Array(1).fill({
         winState: true,
-        symbol  : 3,
+        symbol: 3,
       });
       const matchFound = jest.spyOn(game, 'matchFound');
       game.predicate(filledWinStats);
@@ -73,25 +73,25 @@ describe('Game Function ', () => {
     });
   });
 
-	test('should trigger reset when balance is 0', () => {
-		return globalDatabase.find('game', (game) => {
-			game.state.balance = 0;
-			const reset = jest.spyOn(game, 'reset');
-			game.spin();
+  test('should trigger reset when balance is 0', () => {
+    return globalDatabase.find('game', (game) => {
+      game.state.balance = 0;
+      const reset = jest.spyOn(game, 'reset');
+      game.spin();
 
-			expect(reset).toHaveBeenCalled();
-		});
-	});
-	
-	test('should not trigger reset when balance is > 0', () => {
-		return globalDatabase.find('game', (game) => {
-			game.state.balance = 1000;
-			const reset = jest.spyOn(game, 'reset');
-			game.spin();
+      expect(reset).toHaveBeenCalled();
+    });
+  });
 
-			expect(reset).not.toHaveBeenCalled();
-		});
-	
-	});
+  test('should not trigger reset when balance is > 0', () => {
+    return globalDatabase.find('game', (game) => {
+      game.state.balance = 1000;
+      const reset = jest.spyOn(game, 'reset');
+      game.spin();
+
+      expect(reset).not.toHaveBeenCalled();
+    });
+
+  });
 
 });

@@ -4,17 +4,17 @@ var dom = {
   totalWin: document.querySelector('.totalWin'),
   balance: document.querySelector('.balance'),
   stake: document.querySelector('.stake'),
+};
+
+function text(txt, concat) {
+  return `${txt}: %${concat}`;
 }
 
-function text(txt, concat){
-  return `${txt}: %${concat}`
+export function totalWin(amount) {
+  return dom.totalWin.textContent = text('Total Win', amount);
 }
 
-export function totalWin (amount) {
-  return dom.totalWin.textContext = text('Total Win', amount);
-}
-
-export function payout (amount) {
+export function payout(amount) {
   return dom.payout.textContent = text('Payout', amount);
 }
 
@@ -22,6 +22,6 @@ export function balance(amount) {
   return dom.balance.textContent = text('Cash', amount);
 }
 
-export function stake (amount){
+export function stake(amount) {
   return dom.stake.textContent = text('Bet Amount', amount);
 }

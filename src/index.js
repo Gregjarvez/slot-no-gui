@@ -2,7 +2,7 @@ import Game from './modules/game.js';
 
 var slot = new Game();
 
-function gui (){
+function gui() {
   var spin = document.querySelector('.spin')
   var reset = document.querySelector('.reset');
   var currencyConversion = document.querySelector('.currency')
@@ -12,9 +12,9 @@ function gui (){
 
   currencyConversion.addEventListener('change', () => {
     slot.changeCurrency.call(slot, currencyConversion.value)
-  })
+  });
 }
 
-
+window.slot = slot;
 
 gui();

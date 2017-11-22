@@ -12,7 +12,7 @@ function View(state) {
   class ViewDescriptor {
     constructor(state) {
       this.assignedState = state;
-      this.renderer = renderer[state]
+      this.renderer = renderer[state];
     }
 
     update(state) {

@@ -7,7 +7,7 @@ function getCanvas(canvas, {x, y, w, h}) {
         x,
         y,
         w || cv.width,
-        h || cv.height,
+        h || cv.height
     );
   }
 
@@ -29,7 +29,7 @@ Sprite.prototype = {
     ctx.drawImage(
         this.image,
         (this.w + 5) * (x + 0.1),
-        (this.h + 5) * (y + 0.1),
+        (this.h + 5) * (y + 0.1)
     );
   },
 };
@@ -47,6 +47,7 @@ export default (function() {
       for (let j = 0; j < len; j++) {
         let img = reelsArray[j][i];
         let sym = new Sprite(`./gui/reels/${img}.jpeg`);
+
         sym.image.onload = function() {
           sym.draw(j, i, ctx);
         };

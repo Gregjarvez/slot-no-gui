@@ -10,7 +10,7 @@ var config = {
     {type: 2, value: 40},
     {type: 3, value: 5},
     {type: 4, value: 15},
-    {type: 5, value: 100},
+    {type: 5, value: 50},
   ],
   winLines: [
     [0, 0, 0],
