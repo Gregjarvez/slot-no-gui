@@ -21,7 +21,8 @@ var configuration = {
     [0, 1, 1],
     [0, 0, 1],
     [2, 1, 0],
-  ]
+  ],
+  views: ['grid', 'payout', 'accumulatedWin', 'balance', 'stake'],
 }
 
 export default configuration

@@ -1,61 +1,49 @@
-function getCanvas(canvas, {x, y, w, h}) {
-  var cv = document.querySelector(canvas);
-  var ctx = cv.getContext('2d');
+import { dom_canvas } from './dom.js'
+import SpriteSheet from './sprites.js';
 
-  function draw() {
-    ctx.fillRect(
-        x,
-        y,
-        w || cv.width,
-        h || cv.height
-    );
+export default (function () {
+  var context = dom_canvas.getContext('2d')
+  var cache = new Map();
+
+  function drawCanvasBackground (x, y, w, h) {
+    context.fillRect(
+      x,
+      y,
+      w || cv.width,
+      h || cv.height,
+    )
   }
 
-  draw();
+  drawCanvasBackground(
+    0, 0,
+    dom_canvas.width,
+    dom_canvas.height,
+  )
 
-  return ctx;
-}
+  function drawGrid (reelsArray) {
+    var len = reelsArray.length
 
-function Sprite(src) {
-  this.image = new Image();
-  this.image.src = src;
-  this.w = 59;
-  this.h = 59;
+    console.log(reelsArray)
 
-}
+    for (let x = 0; x < len; x++) {
+      for (let y = 0; y < len; y++) {
+        let imgId = reelsArray[y][x]
 
-Sprite.prototype = {
-  draw: function(x, y, ctx) {
-    ctx.drawImage(
-        this.image,
-        (this.w + 5) * (x + 0.1),
-        (this.h + 5) * (y + 0.1)
-    );
-  },
-};
+        if(cache.has(imgId)){
+          console.log(`from cache ${imgId}`)
+          cache.get(imgId).draw(context, y, x )
+          continue;
+        }
 
-export default (function() {
-  var ctx = getCanvas('.canvas', {
-    x: 0,
-    y: 0
-  });
-
-  function canvas(reelsArray) {
-    var len = reelsArray.length;
-
-    for (let i = 0; i < len; i++) {
-      for (let j = 0; j < len; j++) {
-        let img = reelsArray[j][i];
-        let sym = new Sprite(`./gui/reels/${img}.jpeg`);
-
-        sym.image.onload = function() {
-          sym.draw(j, i, ctx);
-        };
+        console.log(`from new ${imgId}`);
+        let sprite = new SpriteSheet(`./modules/gui/reels/${imgId}.jpeg`)
+        sprite.draw(context, y, x )
+        cache.set(imgId, sprite);
       }
 
     }
 
   }
 
-  return canvas;
-}());
+  return drawGrid;
+}())

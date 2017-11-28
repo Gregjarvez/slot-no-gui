@@ -1,8 +1,8 @@
 var StateHanlder = function (context) {
   var preservedState;
 
-  function getState () {
-    return context.state
+  function getInititalState () {
+    return preservedState
   }
 
   function updateState (predicate) {
@@ -21,9 +21,9 @@ var StateHanlder = function (context) {
   }
 
   return {
-    getState: getState,
     updateState: updateState,
     setInitialState: setInitialState,
+    getInititalState: getInititalState
   }
 }
 

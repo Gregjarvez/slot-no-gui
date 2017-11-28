@@ -1,7 +1,8 @@
 import Slot from './slot/index.js'
-import configuration from './states/config.js'
 import StateHandler from './states/stateHandler.js'
-import Publisher from './observer/observerList.js'
+import Publisher from './publisher/observerList.js'
+import View from './gui/view.js'
+import Events from './events/events.js'
 
 class Game {
   constructor (configuration) {
@@ -9,6 +10,7 @@ class Game {
     let context       = this
     this.stateHandler = StateHandler(context)
     this.publisher    = new Publisher()
+    this.events       = Events.getInstance()
     this.state        = this.stateHandler.setInitialState({
       grid: this.slot.computeInitialGrid(),
       win: false,
@@ -18,6 +20,13 @@ class Game {
       payout: 0,
       currency: 'GBP',
     })
+    this.publisher.subscribe(configuration.views.map(View))
+    this.start()
+    this.configureEvents()
+  }
+
+  start () {
+    this.notify()
   }
 
   spin () {
@@ -26,13 +35,22 @@ class Game {
     this.notify()
   }
 
+  reset () {
+    this.stateHandler.updateState(() => {
+      return this.stateHandler.getInititalState()
+    })
+    this.notify()
+  }
+
   notify () {
     this.publisher.update(this.state)
   }
+
+  configureEvents () {
+    this.events
+        .on('spin', this.spin.bind(this))
+        .on('reset', this.reset.bind(this))
+  }
 }
-
-const game = new Game(configuration)
-
-game.spin()
 
 export default Game
