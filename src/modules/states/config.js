@@ -5,7 +5,7 @@ var configuration = {
   stake: 10,
   generatorConfig: {
     min: 1,
-    max: 5
+    max: 5,
   },
   symbols: [
     {type: 1, value: 20},
@@ -22,6 +22,6 @@ var configuration = {
     [0, 0, 1],
     [2, 1, 0],
   ]
-};
+}
 
 export default configuration

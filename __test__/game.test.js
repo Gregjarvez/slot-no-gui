@@ -38,7 +38,7 @@ describe('Game Function ', () => {
     });
   });
 
-  test('updateState updates state', () => {
+  test('updateState updates states', () => {
     return globalDatabase.find('game', (game) => {
       const initialstate = {
         ...game.state

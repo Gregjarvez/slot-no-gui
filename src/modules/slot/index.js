@@ -19,6 +19,7 @@ class Slot {
       symbols: this.symbols,
     })
 
+    this.computeInitialGrid();
     this.onSpin = this.onSpin.bind(this)
   }
 
@@ -27,8 +28,7 @@ class Slot {
     var winStats = this.winLines
                        .reduce(
                          this.winHandler.assertWin(grid, Boolean), [])
-    console.log(winStats);
-    return this.predicate(winStats);
+    return this.predicate(winStats)
   }
 
   generateGridNumbers () {
@@ -43,9 +43,7 @@ class Slot {
   }
 
   computeInitialGrid () {
-    return new Array(this.reelNumber)
-      .fill(this.reelLength)
-      .map(this.rng.randomArray)
+    return this.generateGridNumbers()
   }
 
 }
