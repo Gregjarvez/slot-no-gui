@@ -1,12 +1,8 @@
-/* import RNG from './rng.js';
- *
- * */
-
 var WinHandler = function ({coinValue, symbols}) {
 
-  var is        = Object.is
+  var is = Object.is
   var coinValue = coinValue
-  var symbols   = symbols
+  var symbols = symbols
 
   function assertWin (grid, filter) {
     return function (acc, line) {
@@ -21,7 +17,11 @@ var WinHandler = function ({coinValue, symbols}) {
   }
 
   function toFixed (value, decimalPlaces = 2) {
-    return +((value).toFixed(decimalPlaces))
+    return +(
+      (
+        value
+      ).toFixed(decimalPlaces)
+    )
   }
 
   function setCoinValue (value) {
@@ -36,32 +36,35 @@ var WinHandler = function ({coinValue, symbols}) {
 
   function deepCompare (line, grid) {
     var [l1, l2, l3] = line
-    var rv           = {
+    var rv = {
       reel1: grid[0][l1],
       reel2: grid[1][l2],
       reel3: grid[2][l3],
     }
 
     var matches = is(rv.reel1, rv.reel2) &&
-      is(rv.reel2, rv.reel3) &&
-      is(rv.reel3, rv.reel1)
+                  is(rv.reel2, rv.reel3) &&
+                  is(rv.reel3, rv.reel1)
 
     return {
       winState: matches,
-      symbol: matches ? rv.reel1 : null,
+      symbol  : matches ? rv.reel1 : null,
     }
   }
 
-  function noMatchFound (prevState) {
-    return {
-      win: false,
-      accumulatedWin: toFixed(prevState.accumulatedWin),
-      balance: toFixed(prevState.balance - prevState.stake),
-      payout: 0,
+  function noMatchFound (grid) {
+    return function (prevState) {
+      return {
+        grid: grid,
+        win           : false,
+        accumulatedWin: toFixed(prevState.accumulatedWin),
+        balance       : toFixed(prevState.balance - prevState.stake),
+        payout        : 0,
+      }
     }
   }
 
-  function matchFound (winStats) {
+  function matchFound (winStats, grid) {
 
     var maxScore = winStats.sort(function (a, b) {
       return b.symbol - a.symbol
@@ -75,21 +78,22 @@ var WinHandler = function ({coinValue, symbols}) {
 
     return function (prevState) {
       return {
+        grid: grid,
         accumulatedWin: toFixed(prevState.accumulatedWin + payout),
-        win: maxScore.winState,
-        balance: toFixed(prevState.balance + payout),
-        payout: payout,
+        win           : maxScore.winState,
+        balance       : toFixed(prevState.balance + payout),
+        payout        : payout,
       }
     }
 
   }
 
   return {
-    assertWin: assertWin,
-    matchFound: matchFound,
+    assertWin   : assertWin,
+    matchFound  : matchFound,
     noMatchFound: noMatchFound,
     setCoinValue: setCoinValue,
-    setSymbols: setSymbols,
+    setSymbols  : setSymbols,
 
   }
 }

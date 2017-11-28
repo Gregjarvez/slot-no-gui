@@ -28,7 +28,7 @@ class Slot {
     var winStats = this.winLines
                        .reduce(
                          this.winHandler.assertWin(grid, Boolean), [])
-    return this.predicate(winStats)
+    return this.predicate(winStats, grid);
   }
 
   generateGridNumbers () {
@@ -36,10 +36,10 @@ class Slot {
     return grid.map(this.rng.randomArray)
   }
 
-  predicate (winStats) {
+  predicate (winStats, grid) {
     return winStats.length
-      ? this.winHandler.matchFound(winStats)
-      : this.winHandler.noMatchFound
+      ? this.winHandler.matchFound(winStats, grid)
+      : this.winHandler.noMatchFound(grid)
   }
 
   computeInitialGrid () {
