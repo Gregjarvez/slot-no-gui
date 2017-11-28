@@ -29,11 +29,7 @@ class Game extends SlotManager {
     this.notify();
   }
 
-  predicate(winStats) {
-    return winStats.length
-        ? this.matchFound(winStats)
-        : this.noMatchFound;
-  }
+
 
   spin() {
     this.shuffle.call(this);
@@ -46,7 +42,6 @@ class Game extends SlotManager {
       this.notify();
       return;
     }
-    debugger;
     this.updateState(this.predicate(winStats));
     this.notify();
   }
@@ -110,11 +105,11 @@ class Game extends SlotManager {
       GBP: 'GBP',
       USD: 'USD',
     };
-    let stakeToUSD = this.state.stake * conversion.unitToGBP;
+    let stakeToUSD = this.state.stake / conversion.unitToGBP;
     let defaultState = this.state.stake;
 
     return function(prevState) {
-      const params = {
+      const state = {
         win: prevState.win,
         accumulatedWin: prevState.accumulatedWin,
         balance: prevState.balance,
@@ -125,16 +120,15 @@ class Game extends SlotManager {
       };
 
       if (prevState.currency === conversion.GBP && this.conversionChanged) {
-
         var update = this.calc(
-            params,
+            state,
             conversion.unitToGBP,
             conversion.GBP);
       }
 
       if (prevState.currency === conversion.USD) {
         var update = this.calc(
-            params,
+            state,
             conversion.unitToGBP,
             conversion.USD);
       }
@@ -143,9 +137,9 @@ class Game extends SlotManager {
   }
 
   calc(object, rate, unit) {
-
     Object.assign(object, Object.keys(object).reduce((cur, next) => {
       if (next === 'stake') {
+        cur[next] = this.toFixed(object[next], 1);
         return cur;
       }
       if (unit === 'GBP') {
@@ -154,7 +148,7 @@ class Game extends SlotManager {
       }
       cur[next] = this.toFixed(object[next] / rate, 1);
       return cur;
-    }, {}), this);
+    }, {}));
 
     return object;
   }

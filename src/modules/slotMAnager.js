@@ -17,6 +17,12 @@ class SlotManager {
     this.state.grid.forEach(this.rng.shuffle, this);
   }
 
+  predicate(winStats) {
+    return winStats.length
+        ? this.matchFound(winStats)
+        : this.noMatchFound;
+  }
+
   deepCompare(lines, grid) {
     var is = Object.is;
     var [l1, l2, l3] = lines;
