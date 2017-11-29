@@ -3,17 +3,17 @@ export default (function(){
 
   class Events {
     constructor (){
-      this.buffer = new Map();
+      this.events = new Map();
     }
 
     on(eventType, fnc){
-      if(!this.buffer.has(eventType)){
-        this.buffer.set(eventType, fnc);
+      if(!this.events.has(eventType)){
+        this.events.set(eventType, fnc);
         return this;
       }
     }
     dispatch(eventType){
-      var func = this.buffer.get(eventType)
+      var func = this.events.get(eventType)
       func();
       return false;
     }

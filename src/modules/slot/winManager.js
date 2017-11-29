@@ -1,8 +1,12 @@
+import CurrencyHandler from './currency.js'
+
+
 var WinHandler = function ({coinValue, symbols}) {
 
   var is = Object.is
   var coinValue = coinValue
   var symbols = symbols
+  var curHandler = CurrencyHandler()
 
   function assertWin (grid, filter) {
     return function (acc, line) {
@@ -57,8 +61,8 @@ var WinHandler = function ({coinValue, symbols}) {
       return {
         grid: grid,
         win           : false,
-        accumulatedWin: toFixed(prevState.accumulatedWin),
-        balance       : toFixed(prevState.balance - prevState.stake),
+        accumulatedWin: curHandler.toFixed(prevState.accumulatedWin),
+        balance       : curHandler.toFixed(prevState.balance - prevState.stake),
         payout        : 0,
       }
     }
@@ -74,18 +78,17 @@ var WinHandler = function ({coinValue, symbols}) {
       return sym.type === maxScore.symbol
     }).value
 
-    var payout = 3 * multiplier * coinValue
+    var payout = curHandler.computePayout(multiplier, coinValue);
 
     return function (prevState) {
       return {
         grid: grid,
-        accumulatedWin: toFixed(prevState.accumulatedWin + payout),
+        accumulatedWin: curHandler.toFixed(prevState.accumulatedWin + payout),
         win           : maxScore.winState,
-        balance       : toFixed(prevState.balance + payout),
+        balance       : curHandler.toFixed(prevState.balance + payout),
         payout        : payout,
       }
     }
-
   }
 
   return {

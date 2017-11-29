@@ -30,12 +30,10 @@ export default (function () {
         let imgId = reelsArray[y][x]
 
         if(cache.has(imgId)){
-          console.log(`from cache ${imgId}`)
           cache.get(imgId).draw(context, y, x )
           continue;
         }
 
-        console.log(`from new ${imgId}`);
         let sprite = new SpriteSheet(`./modules/gui/reels/${imgId}.jpeg`)
         sprite.draw(context, y, x )
         cache.set(imgId, sprite);

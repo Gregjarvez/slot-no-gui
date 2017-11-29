@@ -3,6 +3,7 @@ var configuration = {
   reelNumber: 3,
   coinValue: 0.3,
   stake: 10,
+  currency: 'GBP',
   generatorConfig: {
     min: 1,
     max: 5,

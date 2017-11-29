@@ -1,5 +1,4 @@
 import views from './renderers.js';
-import Observer from './observer.js';
 
 var renderer = {
   grid: views.grid,
@@ -9,11 +8,13 @@ var renderer = {
   balance: views.balance,
 };
 
-class ViewDescriptor extends Observer {
+class ViewDescriptor{
   constructor(state) {
-    super();
     this.assignedState = state;
     this.renderer = renderer[state];
+  }
+  update(state) {
+    this.renderer(state[this.assignedState]);
   }
 }
 
