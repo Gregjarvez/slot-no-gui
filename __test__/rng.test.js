@@ -1,39 +1,37 @@
-import RNG from '../src/modules/rgn.js';
-import config from '../src/modules/assets.js';
+import RNG from '../src/modules/slot/rng.js';
+import configuration from '../src/modules/states/config.js';
 import makeGlobalDatabase from './database.js';
 
-const db = makeGlobalDatabase('rng');
+const rngDb = makeGlobalDatabase('rng');
 
-describe('Random number generator ', () => {
-  beforeEach(() => {
-    return db.clear().then((database) => {
-      return database.insert({value: new RNG(config.rngConfig)});
-    });
-  });
+describe('it should ' , () => {
+  beforeAll(() => {
+    const config = configuration.generatorConfig
+    return rngDb.clear()
+                .then(db => db.insert({value: RNG(config)}))
+  })
 
-  test('randomArray should return a random Array', () => {
-    return db.find('rng', (rng) => {
-      const randomArray = rng.randomArray(5);
-      expect(randomArray.length).toBe(5);
-    });
-  });
+  test('return an object when invoked', () => {
+    return rngDb.find('rng', (rng) => {
+      const instance = rng instanceof Object;
+      expect(instance).toBeTruthy();
+    })
+  })
 
-  test('shuffle returns a randomised array', () => {
-    return db.find('rng', (rng) => {
-      const arr = [1, 2, 3, 4, 5];
-      const randomised = rng.shuffle([...arr]);
-      const isShuffled = arr.some((el, index) => randomised[index] !== el);
-      expect(isShuffled).toBe(true);
-    });
-  });
+  test('return 1 for ownPropertiesName', () => {
+    return rngDb.find('rng', (rng) => {
+      const keys = Object.keys(rng);
+      expect(keys.length).toBe(1);
+      expect(keys[0]).toBe('generateRandomArray')
+    })
+  })
 
-  test('random array is within range', () => {
-    return db.find('rng', (rng) => {
-      const randomArray = rng.randomArray(5);
-      const max = Math.max(...randomArray) <= rng.max;
-      const min = Math.min(...randomArray) >= rng.min;
-      expect(max).toBeTruthy();
-      expect(min).toBeTruthy();
-    });
-  });
+
+  test('generateRandom array when invoked', () => {
+    return rngDb.find('rng', (rng) => {
+      const random1 = rng.generateRandomArray(5);
+      const random2 = rng.generateRandomArray(5);
+      expect(random1).not.toEqual(random2);
+    })
+  })
 });

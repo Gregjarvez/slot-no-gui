@@ -18,7 +18,6 @@ class Slot {
       symbols: this.symbols,
     })
 
-    this.computeInitialGrid();
     this.onSpin = this.onSpin.bind(this)
   }
 
@@ -37,7 +36,7 @@ class Slot {
 
   generateGridNumbers () {
     var grid = new Array(this.reelNumber).fill(this.reelLength)
-    return grid.map(this.rng.randomArray)
+    return grid.map(this.rng.generateRandomArray)
   }
 
   predicate ({winStats, grid}) {

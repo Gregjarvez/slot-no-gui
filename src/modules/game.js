@@ -1,4 +1,4 @@
-import Slot from './slot/index.js'
+import Slot from './slot/slot.js'
 import StateHandler from './states/stateHandler.js'
 import Publisher from './publisher/observerList.js'
 import View from './gui/view.js'

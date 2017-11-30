@@ -2,7 +2,8 @@
   "scripts": {
     "test": "jest",
     "test:update": "SET NODE_ENV=test jest -u",
-    "serve": "browser-sync start --server --directory"
+    "serve": "browser-sync start --server --directory",
+    "coverage": "rm -rf ./coverage && jest --coverage"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

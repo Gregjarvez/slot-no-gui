@@ -6,8 +6,8 @@ function makeGlobalDatabase(name) {
     }
 
     find(name, callBack) {
-      var results = this.data.get(name);
-      return callBack(results);
+      var value = this.data.get(name);
+      return callBack(value);
     }
 
     insert({value}) {

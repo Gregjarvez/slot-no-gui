@@ -2,7 +2,7 @@ const RNG = function ({min, max}) {
   var maxRange = max
   var minRange = min
 
-  function randomArray (len) {
+  function generateRandomArray (len) {
     var array = []
     while (len--) {
       array.push(randomBetween())
@@ -18,7 +18,7 @@ const RNG = function ({min, max}) {
   }
 
   return {
-    randomArray: randomArray,
+    generateRandomArray: generateRandomArray,
   }
 }
 

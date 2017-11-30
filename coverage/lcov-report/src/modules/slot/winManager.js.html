@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/modules/slotMAnager.js</title>
+    <title>Code coverage report for src/modules/slot/winManager.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(..\..\..\sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/modules</a> slotMAnager.js
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">src/modules/slot</a> winManager.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92% </span>
+        <span class="strong">96% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>23/25</span>
+        <span class='fraction'>24/25</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>9/9</span>
+        <span class='fraction'>7/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">83.33% </span>
+        <span class="strong">90% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>10/12</span>
+        <span class='fraction'>9/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92% </span>
+        <span class="strong">96% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>23/25</span>
+        <span class='fraction'>24/25</span>
       </div>
     </div>
   </div>
@@ -126,43 +126,54 @@
 81
 82
 83
-84
-85
-86
-87
-88</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+84</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,37 +181,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,110 +201,107 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import config from './assets.js';
-import RNG from './rgn.js';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import CurrencyHandler from './currency.js'
 &nbsp;
-class SlotManager {
-  constructor() {
-    Object.assign(this, config);
 &nbsp;
-    this.rng = new RNG(this.rngConfig);
-    this.initialGrid = this.computeInitialGrid();
+var WinHandler = function ({coinValue, symbols}) {
+&nbsp;
+  var is = Object.is
+  var coinValue = coinValue
+  var symbols = symbols
+  var curHandler = CurrencyHandler()
+&nbsp;
+  function assertWin (grid, filter) {
+    return function (acc, line) {
+      var matches = deepCompare(line, grid)
+&nbsp;
+      if (filter(matches.winState)) {
+        acc.push(matches)
+        return acc
+      }
+      return acc
+    }
   }
 &nbsp;
-  toFixed(val, points) {
-    return +((val).toFixed(points || 2));
-  }
-&nbsp;
-  shuffle() {
-    this.state.grid.forEach(this.rng.shuffle, this);
-  }
-&nbsp;
-  deepCompare(lines, grid) {
-    var is = Object.is;
-    var [l1, l2, l3] = lines;
+  function deepCompare (line, grid) {
+    var [l1, l2, l3] = line
     var rv = {
       reel1: grid[0][l1],
       reel2: grid[1][l2],
       reel3: grid[2][l3],
-    };
+    }
 &nbsp;
     var matches = is(rv.reel1, rv.reel2) &amp;&amp;
-        is(rv.reel2, rv.reel3) &amp;&amp;
-        is(rv.reel3, rv.reel1);
+                  is(rv.reel2, rv.reel3) &amp;&amp;
+                  is(rv.reel3, rv.reel1)
 &nbsp;
     return {
       winState: matches,
-      symbol: matches ? rv.reel1 : null,
-    };
+      symbol  : matches ? rv.reel1 : null,
+    }
   }
 &nbsp;
-  assertWin(grid) {
-    var context = this;
-    return function(lines) {
-      var matches = this.deepCompare(lines, grid);
-&nbsp;
-      if (!matches.winState) {
-        return false;
+  function noMatchFound (grid) {
+    return function (prevState) {
+      return {
+        grid: grid,
+        win           : false,
+        accumulatedWin: curHandler.toFixed(prevState.accumulatedWin),
+        balance       : curHandler.toFixed(prevState.balance - prevState.stake),
+        payout        : 0,
       }
-      return matches;
-    }.bind(context);
+    }
   }
 &nbsp;
-  noMatchFound(prevState) {
-    return {
-      win: false,
-      accumulatedWin: this.toFixed(prevState.accumulatedWin),
-      balance: this.toFixed(prevState.balance - prevState.stake),
-      payout: 0,
-    };
-  };
+  function matchFound (winStats, grid) {
 &nbsp;
-  matchFound(winStats) {
-    var maxScore = winStats.sort(<span class="fstat-no" title="function not covered" >fu</span>nction(a, b) {
-<span class="cstat-no" title="statement not covered" >      return b.symbol - a.symbol;</span>
-    })[0];
+    var maxScore = winStats.sort(<span class="fstat-no" title="function not covered" >fu</span>nction (a, b) {
+<span class="cstat-no" title="statement not covered" >      return b.symbol - a.symbol</span>
+    })[0]
 &nbsp;
-    var multiplier = this.symbols.find(function(sym) {
-      return sym.type === maxScore.symbol;
-    }).value;
+    var multiplier = symbols.find(function (sym) {
+      return sym.type === maxScore.symbol
+    }).value
 &nbsp;
-    var payout = 3 * multiplier * this.coinValue;
-    return <span class="fstat-no" title="function not covered" >fu</span>nction(prevState) {
-<span class="cstat-no" title="statement not covered" >      return {</span>
-        accumulatedWin: this.toFixed(prevState.accumulatedWin + payout),
-        win: maxScore.winState,
-        balance: this.toFixed(prevState.balance + payout),
-        payout: payout,
-      };
-    };
+    var payout = curHandler.computePayout(multiplier, coinValue);
+&nbsp;
+    return function (prevState) {
+      return {
+        grid: grid,
+        accumulatedWin: curHandler.toFixed(prevState.accumulatedWin + payout),
+        win           : maxScore.winState,
+        balance       : curHandler.toFixed(prevState.balance + payout),
+        payout        : payout,
+      }
+    }
   }
 &nbsp;
-  computeInitialGrid() {
-    return new Array(this.gridLength)
-        .fill(this.reelLength)
-        .map(this.rng.randomArray);
+  return {
+    assertWin   : assertWin,
+    matchFound  : matchFound,
+    noMatchFound: noMatchFound,
   }
 }
 &nbsp;
-export default SlotManager;
+export default WinHandler
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Nov 17 2017 14:46:18 GMT+0000 (GMT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 30 2017 10:30:59 GMT+0000 (GMT Standard Time)
 </div>
 </div>
-<script src="../../prettify.js"></script>
+<script src="..\..\..\prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -321,6 +309,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../../sorter.js"></script>
+<script src="..\..\..\sorter.js"></script>
 </body>
 </html>

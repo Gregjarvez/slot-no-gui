@@ -23,8 +23,6 @@ export default (function () {
   function drawGrid (reelsArray) {
     var len = reelsArray.length
 
-    console.log(reelsArray)
-
     for (let x = 0; x < len; x++) {
       for (let y = 0; y < len; y++) {
         let imgId = reelsArray[y][x]

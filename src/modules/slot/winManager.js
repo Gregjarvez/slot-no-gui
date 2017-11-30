@@ -20,24 +20,6 @@ var WinHandler = function ({coinValue, symbols}) {
     }
   }
 
-  function toFixed (value, decimalPlaces = 2) {
-    return +(
-      (
-        value
-      ).toFixed(decimalPlaces)
-    )
-  }
-
-  function setCoinValue (value) {
-    coinValue = value
-    return
-  }
-
-  function setSymbols (sym) {
-    symbols = sym
-    return false
-  }
-
   function deepCompare (line, grid) {
     var [l1, l2, l3] = line
     var rv = {
@@ -95,9 +77,6 @@ var WinHandler = function ({coinValue, symbols}) {
     assertWin   : assertWin,
     matchFound  : matchFound,
     noMatchFound: noMatchFound,
-    setCoinValue: setCoinValue,
-    setSymbols  : setSymbols,
-
   }
 }
 
