@@ -62,6 +62,7 @@ var WinHandler = function ({coinValue, symbols}) {
 
     var payout = curHandler.computePayout(multiplier, coinValue);
 
+
     return function (prevState) {
       return {
         grid: grid,

@@ -5,10 +5,11 @@ import makeGlobalDatabase from './database.js'
 const winHandlerDb = makeGlobalDatabase('winHandler')
 const actualsDb    = makeGlobalDatabase('actual')
 
-function modifier ({win, balance, payout}) {
+function mockState ({grid, win, balance, payout, accumulatedWin}) {
   return {
+    grid,
     win,
-    accumulatedWin: payout,
+    accumulatedWin,
     balance,
     payout,
   }
@@ -23,7 +24,7 @@ describe('it should ', () => {
 
   beforeAll(() => {
     const config = {
-      coinValue: configuration.generatorConfig,
+      coinValue: configuration.coinValue,
       symbols: configuration.symbols,
     }
     const grid   = [
@@ -41,16 +42,6 @@ describe('it should ', () => {
         balance: 1000,
         stake: 10,
         payout: 0,
-        currency: 'GBP',
-      },
-      stateObjectAfterWin: {
-        grid: grid,
-        win: true,
-        accumulatedWin: 0,
-        balance: 990,
-        stake: 10,
-        payout: 0,
-        currency: 'GBP',
       },
     }
 
@@ -134,26 +125,27 @@ describe('it should ', () => {
 
         const mockPayout = mockPayoutValue()
 
-        const actualStateObjectAfterWin  = Object.assign(
-          {}, stateObject, modifier({
-            win: true,
-            balance: (stateObject.balance + mockPayout),
-            payout: mockPayout,
-          }),
-        )
-        const actualStateObjectAfterLose = Object.assign({}, stateObject,
-          modifier({
-            win: false,
-            balance: (stateObject.balance - stateObject.stake),
-            payout: 0,
-          }),
-        )
+        const actualStateObjectAfterWin = mockState({
+          grid: grid,
+          win: true,
+          balance: (stateObject.balance + mockPayout),
+          payout: mockPayout,
+          accumulatedWin: mockPayout,
+        })
+
+        const actualStateObjectAfterLose = mockState({
+          grid: grid,
+          win: false,
+          balance: (stateObject.balance - stateObject.stake),
+          accumulatedWin: 0,
+          payout: 0,
+        })
 
         const expectedStateAfterLose = noMatchFound(stateObject)
         const expectedStateAfterWin  = matchFound(stateObject)
 
-        expect(actualStateObjectAfterWin).not.toEqual(expectedStateAfterLose)
-        expect(actualStateObjectAfterLose).not.toEqual(expectedStateAfterWin)
+        expect(actualStateObjectAfterWin).toEqual(expectedStateAfterWin)
+        expect(actualStateObjectAfterLose).toEqual(expectedStateAfterLose)
       })
     })
   })
