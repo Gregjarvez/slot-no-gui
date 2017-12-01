@@ -2499,7 +2499,7 @@ jsdom-quokka-plugin@^1.0.8:
   dependencies:
     jsdom "^11.0.0"
 
-jsdom@^11.0.0, jsdom@^11.5.1:
+jsdom@^11.0.0:
   version "11.5.1"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-11.5.1.tgz#5df753b8d0bca20142ce21f4f6c039f99a992929"
   dependencies:

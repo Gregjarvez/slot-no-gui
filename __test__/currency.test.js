@@ -28,11 +28,11 @@ describe('it should', () => {
   test('round a number to specified decimal places', () => {
     return currencyHandlerDb.find('currencyHandler', (currencyHandler) => {
       const testNumber        = 5.43232
-      const after3PointsRound = 5.43
+      const after2PointsRound = 5.43
       const expected          = currencyHandler.toFixed(testNumber, 2)
 
       expect(typeof expected).toBe('number')
-      expect(after3PointsRound).toEqual(expected)
+      expect(after2PointsRound).toEqual(expected)
     })
   })
 
