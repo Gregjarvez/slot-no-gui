@@ -1,5 +1,5 @@
 var StateHanlder = function (context) {
-  var preservedState;
+  var preservedState
 
   function getInititalState () {
     return preservedState
@@ -9,21 +9,20 @@ var StateHanlder = function (context) {
     var update = predicate.call(this, context.state)
 
     for (let key in update) {
-      if (update.hasOwnProperty(key)) {
-        context.state[key] = update[key]
-      }
+      update.hasOwnProperty(key) &&
+      (context.state[key] = update[key])
     }
   }
 
   function setInitialState (initialState) {
     preservedState = Object.assign({}, initialState)
-    return initialState;
+    return initialState
   }
 
   return {
     updateState: updateState,
     setInitialState: setInitialState,
-    getInititalState: getInititalState
+    getInititalState: getInititalState,
   }
 }
 

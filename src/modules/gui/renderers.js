@@ -3,7 +3,7 @@ import {totalWin, stake, payout, balance} from './textRenderers.js';
 
 export default {
   grid,
-  totalWin,
+  accumulatedWin: totalWin,
   stake,
   payout,
   balance

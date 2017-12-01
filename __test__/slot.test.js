@@ -49,7 +49,7 @@ describe('it should', () => {
     return slotdb.find('slot', (slot) => {
       return gridDb.find('grid', (grid) => {
         const winStats   = {
-          winStats: [{type: 2, symbol: 3}],
+          winStats: [{type: 2, symbol: 3}, {type: 2, symbol: 1}],
           grid: grid,
         }
         const matchFound = jest.spyOn(slot.winHandler, 'matchFound')

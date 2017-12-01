@@ -3,31 +3,17 @@ class Publisher {
     this.observers = [];
   }
 
-  subscribe(observer) {
-    var context = this;
-
-    if (Array.isArray(observer)) {
-      observer.forEach(function(obs) {
-        this.observers.push(obs);
-      }, context);
-
-      return this;
-    }
-
-    this.observers.push(observer);
-    return this;
+  subscribe(observers) {
+    this.observers = [
+      ...this.observers,
+      ...observers
+    ]
   }
 
   update(param) {
     this.observers.forEach(function(obs) {
       obs.update.call(obs, param);
     });
-  }
-
-  unregister(view) {
-    const update = this.observers
-        .filter(observer => observer.assignedState !== view);
-    this.observers = update;
   }
 }
 

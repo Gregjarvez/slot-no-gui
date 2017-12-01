@@ -2,21 +2,44 @@ import Game from './modules/game.js'
 import configuration from './modules/states/config.js'
 import Events from './modules/events/events.js'
 
-function init () {
-  const game   = new Game(configuration)
-  const events = Events.getInstance()
-
-  var spin  = document.querySelector('.spin')
-  var reset = document.querySelector('.reset')
-
-  spin.addEventListener('click', () => {
-    events.dispatch('spin')
-  })
-
-  reset.addEventListener('click', () => {
-    events.dispatch('reset')
-  })
-
+function makeGameInstance () {
+  new Game(configuration)
+  return Promise.resolve()
 }
 
-init()
+function getInterface () {
+  const interfaces = [
+    {
+      subject: document.querySelector('.spin'),
+      event: {
+        type: 'click',
+        action: 'spin',
+      },
+    },
+    {
+      subject: document.querySelector('.reset'),
+      event: {
+        type: 'click',
+        action: 'reset',
+      },
+    },
+  ]
+
+  return Promise.resolve(interfaces)
+}
+
+function addEvents (interfaces) {
+  const events = Events.getInstance()
+  interfaces.forEach(({subject, event} = {}) => {
+    subject.addEventListener(event.type, () => {
+      events.dispatch(event.action)
+    })
+  })
+}
+
+Promise.all([
+  makeGameInstance(),
+  getInterface()
+]).then(([game, interfaces]) => addEvents(interfaces))
+
+

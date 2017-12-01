@@ -1,31 +1,31 @@
-export default (function(){
-  let instance = null;
+export default (function () {
+  let instance = null
 
   class Events {
-    constructor (){
-      this.events = new Map();
+    constructor () {
+      this.events = new Map()
     }
 
-    on(eventType, fnc){
-      if(!this.events.has(eventType)){
-        this.events.set(eventType, fnc);
-        return this;
-      }
+    on (eventType, fnc) {
+      !this.events.has(eventType) && this.events.set(eventType, fnc)
+      return this
     }
-    dispatch(eventType){
+
+    dispatch (eventType) {
       var func = this.events.get(eventType)
-      func();
-      return false;
+      func()
+      return false
     }
 
   }
+
   return {
-    getInstance(){
-      if(!instance){
-        instance = new Events();
+    getInstance () {
+      if (!instance) {
+        instance = new Events()
       }
       return instance
-    }
+    },
   }
 }())
 
