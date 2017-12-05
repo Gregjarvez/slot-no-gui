@@ -3,8 +3,7 @@ import configuration from './modules/states/config.js'
 import Events from './modules/events/events.js'
 
 function makeGameInstance () {
-  new Game(configuration)
-  return Promise.resolve()
+  return new Game(configuration)
 }
 
 function getInterface () {
@@ -23,6 +22,14 @@ function getInterface () {
         action: 'reset',
       },
     },
+    {
+      subject: document.querySelector('.currency'),
+      event: {
+        type: 'change',
+        action: 'currencyChange',
+        expects: 'value',
+      },
+    },
   ]
 
   return Promise.resolve(interfaces)
@@ -31,15 +38,17 @@ function getInterface () {
 function addEvents (interfaces) {
   const events = Events.getInstance()
   interfaces.forEach(({subject, event} = {}) => {
-    subject.addEventListener(event.type, () => {
-      events.dispatch(event.action)
+    subject.addEventListener(event.type, (e) => {
+      var value = event.expects && e.target[event.expects]
+
+      events.dispatch(event.action, value)
     })
   })
 }
 
 Promise.all([
   makeGameInstance(),
-  getInterface()
+  getInterface(),
 ]).then(([game, interfaces]) => addEvents(interfaces))
 
 

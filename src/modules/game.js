@@ -6,12 +6,12 @@ import Events from './events/events.js'
 
 class Game {
   constructor (configuration) {
-    this.slot         = new Slot(configuration)
-    let context       = this
-    this.stateHandler = StateHandler(context)
-    this.publisher    = new Publisher()
-    this.events       = Events.getInstance()
-    this.state        = this.stateHandler.setInitialState({
+    this.slot            = new Slot(configuration)
+    let context          = this
+    this.stateHandler    = StateHandler(context)
+    this.publisher       = new Publisher()
+    this.events          = Events.getInstance()
+    this.state           = this.stateHandler.setInitialState({
       grid: this.slot.computeInitialGrid(),
       win: false,
       accumulatedWin: 0,
@@ -20,6 +20,7 @@ class Game {
       payout: 0,
       currency: 'GBP',
     })
+    this.currencyHandler = this.slot.currencyHandler(this.state)
     this.publisher.subscribe(configuration.views.map(View))
     this.start()
     this.configureEvents()
@@ -30,9 +31,15 @@ class Game {
   }
 
   spin () {
-    var predicate = this.slot.onSpin()
-    this.stateHandler.updateState(predicate)
+    var reducer = this.slot.onSpin()
+    this.stateHandler.updateState(reducer)
     this.notify()
+  }
+
+  oncurrencyChange (currency) {
+    var state = this.currencyHandler(this.state, currency);
+    this.stateHandler.updateState((prevState) => state)
+    this.notify();
   }
 
   reset () {
@@ -50,6 +57,7 @@ class Game {
     this.events
         .on('spin', this.spin.bind(this))
         .on('reset', this.reset.bind(this))
+        .on('currencyChange', this.oncurrencyChange.bind(this))
   }
 }
 

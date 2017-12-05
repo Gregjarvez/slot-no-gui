@@ -1,5 +1,6 @@
 import RNG from './rng.js'
 import Winhandler from './winManager.js'
+import CurrencyHandler from './currency.js'
 
 class Slot {
   constructor (configuration) {
@@ -17,6 +18,7 @@ class Slot {
       coinValue: this.coinValue,
       symbols: this.symbols,
     })
+    this.currencyHandler = CurrencyHandler().onCurrencyChange
 
     this.onSpin = this.onSpin.bind(this)
   }
@@ -26,12 +28,12 @@ class Slot {
     var winStats = this.winLines
                        .reduce(
                          this.winHandler.assertWin(grid, Boolean), [])
-    var stats = {
+    var stats    = {
       winStats: winStats,
       grid: grid,
-      currency: this.currency
+      currency: this.currency,
     }
-    return this.predicate(stats);
+    return this.reducer(stats)
   }
 
   generateGridNumbers () {
@@ -39,7 +41,7 @@ class Slot {
     return grid.map(this.rng.generateRandomArray)
   }
 
-  predicate ({winStats, grid}) {
+  reducer ({winStats, grid}) {
     return winStats.length
       ? this.winHandler.matchFound(winStats, grid)
       : this.winHandler.noMatchFound(grid)

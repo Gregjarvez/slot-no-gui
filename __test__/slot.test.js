@@ -21,10 +21,10 @@ describe('it should', () => {
       .clear().then(db => db.insert({value: new Slot(config)}))
   })
 
-  test('return a predicate function', () => {
+  test('return a reducer function', () => {
     return slotdb.find('slot', (slot) => {
-      const predicate = slot.onSpin()
-      const expected  = predicate instanceof Function
+      const reducer = slot.onSpin()
+      const expected  = reducer instanceof Function
       expect(expected).toBe(true)
     })
   })
@@ -38,7 +38,7 @@ describe('it should', () => {
         }
         const noMatchFound = jest.spyOn(slot.winHandler, 'noMatchFound')
 
-        slot.predicate(winStats)
+        slot.reducer(winStats)
 
         expect(noMatchFound).toHaveBeenCalled()
       })
@@ -54,7 +54,7 @@ describe('it should', () => {
         }
         const matchFound = jest.spyOn(slot.winHandler, 'matchFound')
 
-        slot.predicate(winStats)
+        slot.reducer(winStats)
 
         expect(matchFound).toHaveBeenCalled()
       })

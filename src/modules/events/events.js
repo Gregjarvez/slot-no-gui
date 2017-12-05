@@ -11,9 +11,9 @@ export default (function () {
       return this
     }
 
-    dispatch (eventType) {
+    dispatch (eventType, ...args) {
       var func = this.events.get(eventType)
-      func()
+      func.apply(null, args);
       return false
     }
 
