@@ -29,14 +29,28 @@ function getInterface () {
         action: 'currencyChange',
         expects: 'value',
       },
+      isDropDown: true,
+      default: 'GBP',
     },
   ]
 
   return Promise.resolve(interfaces)
 }
 
+function resetInterface (interfaces) {
+  return function () {
+    for (let entry of interfaces) {
+      entry.isDropDown &&
+      (entry.subject.value = entry.default)
+    }
+  }
+}
+
 function addEvents (interfaces) {
   const events = Events.getInstance()
+
+  events.on('currencyReset', resetInterface(interfaces))
+
   interfaces.forEach(({subject, event} = {}) => {
     subject.addEventListener(event.type, (e) => {
       var value = event.expects && e.target[event.expects]

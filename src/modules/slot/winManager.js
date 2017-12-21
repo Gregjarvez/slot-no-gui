@@ -33,6 +33,7 @@ var WinHandler = function ({coinValue, symbols}) {
 
     return {
       winState: matches,
+      line: line,
       symbol: matches ? rv.reel1 : null,
     }
   }
@@ -40,7 +41,10 @@ var WinHandler = function ({coinValue, symbols}) {
   function noMatchFound (grid) {
     return function (prevState) {
       return {
-        grid: grid,
+        grid: {
+          gridLines: grid,
+          winLines: []
+        },
         win: false,
         accumulatedWin: curHandler.toFixed(prevState.accumulatedWin),
         balance: curHandler.toFixed(prevState.balance - prevState.stake),
@@ -63,9 +67,11 @@ var WinHandler = function ({coinValue, symbols}) {
 
     return function (prevState) {
       return {
-        grid: grid,
+        grid: {
+          gridLines: grid,
+          winLines: winStats[0].line
+        },
         accumulatedWin: curHandler.toFixed(prevState.accumulatedWin + payout),
-        win: maxScore.winState,
         balance: curHandler.toFixed(prevState.balance + payout),
         payout: payout,
       }

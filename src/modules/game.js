@@ -12,7 +12,10 @@ class Game {
     this.publisher       = new Publisher()
     this.events          = Events.getInstance()
     this.state           = this.stateHandler.setInitialState({
-      grid: this.slot.computeInitialGrid(),
+      grid: {
+        gridLines: this.slot.computeInitialGrid(),
+        winLines: []
+      },
       win: false,
       accumulatedWin: 0,
       balance: 1000,
@@ -38,7 +41,7 @@ class Game {
 
   oncurrencyChange (currency) {
     var state = this.currencyHandler(this.state, currency);
-    this.stateHandler.updateState((prevState) => state)
+    this.stateHandler.updateState(() => state)
     this.notify();
   }
 
@@ -47,6 +50,7 @@ class Game {
       return this.stateHandler.getInititalState()
     })
     this.notify()
+    this.events.dispatch('currencyReset')
   }
 
   notify () {

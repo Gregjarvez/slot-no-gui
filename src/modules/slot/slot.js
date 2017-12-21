@@ -28,10 +28,10 @@ class Slot {
     var winStats = this.winLines
                        .reduce(
                          this.winHandler.assertWin(grid, Boolean), [])
+
     var stats    = {
       winStats: winStats,
       grid: grid,
-      currency: this.currency,
     }
     return this.reducer(stats)
   }
